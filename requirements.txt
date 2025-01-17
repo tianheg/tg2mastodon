@@ -1,0 +1,3 @@
+python-telegram-bot
+Mastodon.py
+python-dotenv 

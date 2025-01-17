@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  tgbot:
+    build: .
+    container_name: tg2mastodon
+    restart: unless-stopped
+    volumes:
+      - ./temp:/app/temp  # For temporary media files
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - MASTODON_ACCESS_TOKEN=${MASTODON_ACCESS_TOKEN}
+      - MASTODON_INSTANCE_URL=${MASTODON_INSTANCE_URL}
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-count: "3"

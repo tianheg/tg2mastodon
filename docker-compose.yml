@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   tgbot:
     build: .
@@ -12,8 +10,3 @@ services:
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
       - MASTODON_ACCESS_TOKEN=${MASTODON_ACCESS_TOKEN}
       - MASTODON_INSTANCE_URL=${MASTODON_INSTANCE_URL}
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-count: "3"

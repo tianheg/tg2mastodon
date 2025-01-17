@@ -20,6 +20,7 @@ class Config:
     telegram_token: str
     mastodon_token: str
     mastodon_url: str
+    polling_interval: float  # in seconds
 
     @classmethod
     def from_env(cls) -> 'Config':
@@ -28,7 +29,8 @@ class Config:
         return cls(
             telegram_token=os.getenv('TELEGRAM_BOT_TOKEN', ''),
             mastodon_token=os.getenv('MASTODON_ACCESS_TOKEN', ''),
-            mastodon_url=os.getenv('MASTODON_INSTANCE_URL', '')
+            mastodon_url=os.getenv('MASTODON_INSTANCE_URL', ''),
+            polling_interval=float(os.getenv('POLLING_INTERVAL', '3600'))  # default 1h
         )
 
 class MediaHandler:
@@ -106,9 +108,9 @@ class TelegramMastodonBot:
             self.forward_to_mastodon
         ))
 
-        # Start the bot
-        logger.info("Starting bot...")
-        application.run_polling()
+        # Start the bot with custom polling interval
+        logger.info(f"Starting bot with polling interval of {self.config.polling_interval} seconds...")
+        application.run_polling(poll_interval=self.config.polling_interval)
         logger.info("Bot started!")
 
 def main():
@@ -118,4 +120,4 @@ def main():
     bot.run()
 
 if __name__ == '__main__':
-    main() 
+    main()
